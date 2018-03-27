@@ -4,15 +4,18 @@ import {
     Text,
     View,
 } from 'react-native';
-import PropTypes from 'prop-types';
+import wallet from './lib/wallet';
 
 // @flow
 export default class WalletPage extends React.Component {
     render() {
         return (
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, alignItems:'center', justifyContent:'center' }}>
                 <Text style={styles.welcome}>
-                    Wallet page
+                    Wallet page, 你有 {wallet.accounts.length} 个账户
+                </Text>
+                <Text style={styles.welcome}>
+                    第一个账户的地址是: {wallet.wallets[0].address}
                 </Text>
             </View>
         );

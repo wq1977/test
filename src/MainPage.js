@@ -2,22 +2,26 @@ import React from 'react';
 import {
     StyleSheet,
     Text,
+    ScrollView,
     View,
     TabBarIOS,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import WalletPage from './WalletPage';
+import NewWalletPage from './NewWalletPage';
+import wallet from './lib/wallet';
 
 // @flow
 export default class MainPage extends React.Component {
     static propTypes = {
-        selected: PropTypes.string
+        selected: PropTypes.string,
+        navigator: PropTypes.object // pass the navigator instance
     }
 
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: props.selected || '会话',
+            selectedTab: props.selected || 'Tokens',
             notifCount: 0,
             presses: 0,
         };
@@ -25,10 +29,10 @@ export default class MainPage extends React.Component {
 
     _renderContent(color: string, pageText: string, num?: number) {
         return (
-            <View style={[styles.tabContent, { backgroundColor: color }]}>
+            <ScrollView contentContainerStyle={[styles.tabContent, { backgroundColor: color }]}>
                 <Text style={styles.tabText}>{pageText}</Text>
                 <Text style={styles.tabText}>第 {num} 次重复渲染{pageText}</Text>
-            </View>
+            </ScrollView>
         );
     }
 
@@ -59,11 +63,25 @@ export default class MainPage extends React.Component {
         });
     }
 
+    checkWallet() {
+        if (wallet.accounts.length == 0) {
+            this.props.navigator && this.props.navigator.push({
+                title: 'new',
+                component: NewWalletPage,
+                navigationBarHidden: true
+            });
+        }
+    }
+
+    componentDidMount() {
+        setTimeout(this.checkWallet.bind(this), 1000);
+    }
+
     render() {
         return (
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, backgroundColor: 'red' }} >
                 <TabBarIOS
-                    style={{ flex: 1, alignItems: 'flex-end' }}
+                    style={{ flex: 1, backgroundColor: 'blue', alignItems: 'flex-end' }}
                     tintColor="white"
                     barTintColor="darkslateblue">
                     <TabBarIOS.Item

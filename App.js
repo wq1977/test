@@ -1,7 +1,11 @@
 import React from 'react';
 
-import MainPage from './src/MainPage';
 import { Asset } from 'expo';
+import {
+    NavigatorIOS,
+} from 'react-native';
+
+import MainPage from './src/MainPage';
 
 function cacheImages(images) {
     return images.map(image => {
@@ -16,7 +20,7 @@ function cacheImages(images) {
 
 let AppLoading;
 export default class App extends React.Component {
-    dummyConsole(){}
+    dummyConsole() { }
 
     constructor(props) {
         super(props);
@@ -33,23 +37,29 @@ export default class App extends React.Component {
         const imageAssets = cacheImages([
             require('./assets/images/tokens.png'),
         ]);
-    
+
         await Promise.all([...imageAssets]);
     }
-    
+
     render() {
         if ((!this.state.isReady)) {
             return (
                 <AppLoading
                     startAsync={this._loadAssetsAsync}
-                    onFinish={() =>{
-                        this.setState({ isReady: true } );
+                    onFinish={() => {
+                        this.setState({ isReady: true });
                     }}
                 />
             );
         }
         return (
-            <MainPage />
+            <NavigatorIOS
+                initialRoute={{
+                    component: MainPage,
+                    title: 'My Initial Scene',
+                }}
+                style={{ flex: 1 }}
+            />
         );
     }
 }
