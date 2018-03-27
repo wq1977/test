@@ -5,7 +5,14 @@ import renderer from 'react-test-renderer';
 
 /* global it, expect */
 
-it('renders without crashing', () => {
-    const rendered = renderer.create(<App />).toJSON();
+it('renders without crashing', (done) => {
+    const render = renderer.create(<App />);
+    const instance = render.getInstance();
+    instance.dummyConsole();
+    const rendered = render.toJSON();
     expect(rendered).toBeTruthy();
+    instance._loadAssetsAsync()
+        .then(() => {
+            done();
+        });
 });

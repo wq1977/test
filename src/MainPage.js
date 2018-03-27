@@ -6,6 +6,7 @@ import {
     TabBarIOS,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import WalletPage from './WalletPage';
 
 // @flow
 export default class MainPage extends React.Component {
@@ -46,7 +47,7 @@ export default class MainPage extends React.Component {
 
     onPress2() {
         this.setState({
-            selectedTab: '发现',
+            selectedTab: 'Tokens',
             presses: this.state.presses + 1
         });
     }
@@ -61,9 +62,6 @@ export default class MainPage extends React.Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
-                <Text style={styles.welcome}>
-                    TabBarIOS使用实例
-                </Text>
                 <TabBarIOS
                     style={{ flex: 1, alignItems: 'flex-end' }}
                     tintColor="white"
@@ -84,10 +82,11 @@ export default class MainPage extends React.Component {
                         {this._renderContent('#783E33', '历史记录', this.state.notifCount)}
                     </TabBarIOS.Item>
                     <TabBarIOS.Item
-                        systemIcon="bookmarks"
-                        selected={this.state.selectedTab === '发现'}
+                        icon={require('../assets/images/tokens.png')}
+                        title="钱包"
+                        selected={this.state.selectedTab === 'Tokens'}
                         onPress={this.onPress2.bind(this)}>
-                        {this._renderContent('#21551C', '下载页面', this.state.presses)}
+                        <WalletPage />
                     </TabBarIOS.Item>
                     <TabBarIOS.Item
                         systemIcon="favorites"

@@ -4,6 +4,8 @@
 .expo/
 coverage/
 
+.DS_Store
+
 # dependencies
 /node_modules
 
