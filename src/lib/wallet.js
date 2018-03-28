@@ -12,12 +12,14 @@ class Wallet {
         this.loadAccounts();
     }
 
+    walletFromPrivateKey(account) {
+        return new ethWallet(account.privateKey);
+    }
+    
     async loadAccounts() {
         try {
             this.accounts = JSON.parse(await AsyncStorage.getItem('@wallets:keys')) || [];
-            this.wallets = this.accounts.map((item) => {
-                return new ethWallet(item.privateKey);
-            });
+            this.wallets = this.accounts.map(this.walletFromPrivateKey);
         } catch (error) {
             // Error, what to do?
         }

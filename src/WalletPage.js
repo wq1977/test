@@ -15,7 +15,7 @@ export default class WalletPage extends React.Component {
                     Wallet page, 你有 {wallet.accounts.length} 个账户
                 </Text>
                 <Text style={styles.welcome}>
-                    第一个账户的地址是: {wallet.wallets[0].address}
+                    第一个账户的地址是: {wallet.accounts.length > 0 && wallet.wallets[0].address}
                 </Text>
             </View>
         );
