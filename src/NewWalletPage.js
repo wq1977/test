@@ -16,11 +16,10 @@ export default class NewWalletPage extends React.Component {
         navigator: PropTypes.object,
     }
 
-    onPressNewWallet() {
+    async onPressNewWallet() {
         wallet.newAccount();
-        wallet.saveAccounts().then(()=>{
-            this.props.navigator.pop();
-        });
+        await wallet.saveAccounts();
+        this.props.navigator.pop();
     }
 
     render() {

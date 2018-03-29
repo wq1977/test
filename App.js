@@ -56,7 +56,7 @@ export default class App extends React.Component {
             <NavigatorIOS
                 initialRoute={{
                     component: MainPage,
-                    title: 'My Initial Scene',
+                    navigationBarHidden: true,
                 }}
                 style={{ flex: 1 }}
             />

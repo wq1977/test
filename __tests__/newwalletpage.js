@@ -2,15 +2,16 @@ import React from 'react';
 import NewWalletPage from '../src/NewWalletPage';
 
 import renderer from 'react-test-renderer';
+import wallet from '../src/lib/wallet';
 
 /* global it, expect */
 
-it('renders mainpage without crashing', (done) => {
+it('renders mainpage without crashing', async () => {
     let rendered = renderer.create(<NewWalletPage navigator={{ pop: ()=>{} }} />);
     expect(rendered.toJSON()).toBeTruthy();
-    rendered.getInstance().onPressNewWallet();
-    // onPressNewWallet was calling async function, we need wait it finish to get 100% coverage
-    setTimeout(() => {
-        done();
-    }, 100);
+    await rendered.getInstance().onPressNewWallet();
+    wallet.newAccount();
+    await wallet.refreshAllBalance();
+    rendered = renderer.create(<NewWalletPage navigator={{ pop: ()=>{} }} />);
+    expect(rendered.toJSON()).toBeTruthy();    
 });
