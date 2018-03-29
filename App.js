@@ -1,11 +1,14 @@
 import React from 'react';
-
 import { Asset } from 'expo';
 import {
     NavigatorIOS,
 } from 'react-native';
 
+import { Provider } from 'react-redux';
+
 import MainPage from './src/MainPage';
+import { store } from './src/lib/models';
+import './src/lib/whisper';
 
 function cacheImages(images) {
     return images.map(image => {
@@ -53,13 +56,15 @@ export default class App extends React.Component {
             );
         }
         return (
-            <NavigatorIOS
-                initialRoute={{
-                    component: MainPage,
-                    navigationBarHidden: true,
-                }}
-                style={{ flex: 1 }}
-            />
+            <Provider store={store}>
+                <NavigatorIOS
+                    initialRoute={{
+                        component: MainPage,
+                        navigationBarHidden: true,
+                    }}
+                    style={{ flex: 1 }}
+                />
+            </Provider>
         );
     }
 }

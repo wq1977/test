@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import WalletPage from './WalletPage';
+import SessionPage from './SessionPage';
 import NewWalletPage from './NewWalletPage';
 import wallet from './lib/wallet';
 
@@ -21,7 +22,7 @@ export default class MainPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: props.selected || 'Tokens',
+            selectedTab: props.selected || '会话',
             notifCount: 0,
             presses: 0,
         };
@@ -89,7 +90,7 @@ export default class MainPage extends React.Component {
                         selected={this.state.selectedTab === '会话'}
                         onPress={this.onPress0.bind(this)}
                     >
-                        {this._renderContent('#414A8C', '自定义界面')}
+                        <SessionPage navigator={this.props.navigator} />
                     </TabBarIOS.Item>
                     <TabBarIOS.Item
                         systemIcon="contacts"

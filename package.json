@@ -31,12 +31,18 @@
   },
   "dependencies": {
     "babel-plugin-add-module-exports": "^0.2.1",
+    "blueimp-md5": "^2.10.0",
     "eslint-plugin-react-native": "^3.2.1",
     "ethers": "^3.0.7",
     "expo": "^25.0.0",
+    "node-libs-browser": "^2.1.0",
     "prop-types": "^15.6.1",
     "react": "16.2.0",
     "react-native": "0.52.0",
-    "react-native-qrcode": "^0.2.6"
+    "react-native-qrcode": "^0.2.6",
+    "react-native-swipeout": "^2.3.3",
+    "react-redux": "^5.0.7",
+    "redux-saga": "^0.16.0",
+    "web3-shh": "^1.0.0-beta.33"
   }
 }
