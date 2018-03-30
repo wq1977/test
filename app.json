@@ -3,6 +3,7 @@
      "name": "Yet another Wallet",
      "icon": "./images/wallet.png",
      "version": "0.0.1",
+     "privacy": "unlisted",
      "slug": "wallet",
      "sdkVersion": "25.0.0",
      "ios": {

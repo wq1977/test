@@ -12,29 +12,32 @@ import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
 
+const utils = require('ethers').utils;
+
 // @flow
 class ConversionPage extends React.Component {
     static propTypes = {
         navigator: PropTypes.object,
         dispatch: PropTypes.func,
         session: PropTypes.object,
+        messages: PropTypes.array,
     }
     state = {
         conversion: [{ key: 'a' }, { key: 'b' }],
         disableScroll: false
     }
 
-    renderRow(item) {
+    renderRow(item: Object) {
         return (<TouchableOpacity>
             <View style={{ padding: 10 }}>
                 <Text style={{ fontSize: 20, color: 'black' }}>
-                    {item.item.key}
+                    {utils.toUtf8String(item.item.payload)}
                 </Text>
             </View>
         </TouchableOpacity>);
     }
 
-    say(){
+    say() {
         this.props.dispatch({
             type: 'whisper',
             payload: {
@@ -42,24 +45,28 @@ class ConversionPage extends React.Component {
                 room: this.props.session,
             }
         });
-        this.setState({inputCnt: ''});
+        this.setState({ inputCnt: '' });
     }
 
-    onInputTextChange(text){
-        this.setState({inputCnt: text});
+    onInputTextChange(text: string) {
+        this.setState({ inputCnt: text });
     }
 
     render() {
+        const messages = this.props.messages.map((msg)=>{
+            msg.key = msg.hash;
+            return msg;
+        });
         return (
             <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
                 <FlatList
                     style={{ backgroundColor: 'grey', flex: 1 }}
-                    data={this.state.conversion}
+                    data={messages}
                     scrollEnabled={!this.state.disableScroll}
                     renderItem={this.renderRow.bind(this)}
                 />
                 <View style={{ flexDirection: 'row' }}>
-                    <TextInput 
+                    <TextInput
                         value={this.state.inputCnt}
                         onChangeText={this.onInputTextChange.bind(this)}
                         style={{ flex: 1 }} />
@@ -72,4 +79,8 @@ class ConversionPage extends React.Component {
     }
 }
 
-export default connect()(ConversionPage);
+export default connect((state) => {
+    return {
+        messages: state.messages
+    };
+})(ConversionPage);

@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
 import ConversionPage from './ConversionPage';
-import wallet from './lib/wallet';
 import Swipeout from 'react-native-swipeout';
 
 // @flow
@@ -20,12 +19,6 @@ class SessionPage extends React.Component {
     static propTypes = {
         navigator: PropTypes.object,
         chatrooms: PropTypes.array
-    }
-
-    async onPressNewWallet() {
-        wallet.newAccount();
-        await wallet.saveAccounts();
-        this.props.navigator.pop();
     }
 
     jumpToConversion(session) {
