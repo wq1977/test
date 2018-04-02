@@ -10,6 +10,8 @@ import MainPage from './src/MainPage';
 import { store } from './src/lib/models';
 import './src/lib/whisper';
 
+console.disableYellowBox = true; // eslint-disable-line
+
 // @flow
 function cacheImages(images) {
     return images.map(image => {
