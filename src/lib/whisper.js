@@ -3,7 +3,7 @@ import { takeEvery, select } from 'redux-saga/effects';
 const utils = require('ethers').utils;
 
 let shh;
-
+// @flow
 String.prototype.hash = function () {
     const md5 = require('md5');
     return `0x${md5(this).substr(0, 8)}`;
@@ -11,32 +11,37 @@ String.prototype.hash = function () {
 
 function* subscribe(action) {
     for (let room of action.payload) {
-        shh.addSymKey(room.key, (err, keyid) => {
+        const keyid = yield shh.addSymKey(room.key);
+        store.dispatch({
+            type: 'room keyid',
+            payload: {
+                room,
+                keyid
+            }
+        });
+        const subscribeid = yield shh.subscribe('messages', {
+            symKeyID: keyid,
+            topics: [room.title.hash()]
+        }, (err, msg) => {
             store.dispatch({
-                type: 'room keyid',
+                type: 'new message',
                 payload: {
-                    room,
-                    keyid
+                    msg,
                 }
             });
-            shh.subscribe('messages', {
-                symKeyID: keyid,
-                topics: [room.title.hash()],
-            }, (err, msg) => {
-                store.dispatch({
-                    type: 'new message',
-                    payload: {
-                        msg,
-                    }
-                });
-            });
+        });
+        store.dispatch({
+            type: 'room subscribeid',
+            payload: {
+                room,
+                subscribeid
+            }
         });
     }
-    yield 0;
 }
 
 function* post(action) {
-    const whisper = yield select((state)=>state.whisper);
+    const whisper = yield select((state) => state.whisper);
     shh.post({
         symKeyID: action.payload.room.item.keyid, // encrypts using the sym key ID
         ttl: 10,
@@ -67,12 +72,12 @@ function* whisperSaga() {
     });
 
     shh.newKeyPair().then((id) => {
-        shh.getPublicKey(id, (err, pubkey)=>{
+        shh.getPublicKey(id, (err, pubkey) => {
             store.dispatch({
                 type: 'save', payload: {
-                    whisper: {id, pubkey},
+                    whisper: { id, pubkey },
                 },
-            });    
+            });
         });
     });
 }

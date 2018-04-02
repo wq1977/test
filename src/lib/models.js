@@ -17,6 +17,15 @@ export const store = createStore((state = {messages:[], chatrooms:[]}, action) =
         }
         chatrooms = [].concat(chatrooms);
         return { ...state, chatrooms };
+    } else if (action.type === 'room subscribeid') {
+        let chatrooms = state.chatrooms;
+        for (let i = 0; i < chatrooms.length; i++) {
+            if (chatrooms[i].key === action.payload.room.key) {
+                chatrooms[i].subscribeid = action.payload.subscribeid;
+            }
+        }
+        chatrooms = [].concat(chatrooms);
+        return { ...state, chatrooms };
     } else if (action.type === 'new message') {
         let messages = state.messages;
         messages = [].concat(messages, [action.payload.msg]);

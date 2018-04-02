@@ -10,6 +10,7 @@ import MainPage from './src/MainPage';
 import { store } from './src/lib/models';
 import './src/lib/whisper';
 
+// @flow
 function cacheImages(images) {
     return images.map(image => {
         return Asset.fromModule(image).downloadAsync();

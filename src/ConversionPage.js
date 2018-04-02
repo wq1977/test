@@ -4,6 +4,7 @@ import {
     FlatList,
     Text,
     View,
+    Alert,
     TextInput,
     Button,
     KeyboardAvoidingView
@@ -38,6 +39,13 @@ class ConversionPage extends React.Component {
     }
 
     say() {
+        if (!this.props.session || !this.props.session.item.subscribeid) {
+            Alert.alert(
+                '不能发送',
+                '还没有注册成功，等一会或者重启APP试试',
+            );
+            return;
+        }
         this.props.dispatch({
             type: 'whisper',
             payload: {

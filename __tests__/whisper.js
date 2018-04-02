@@ -4,7 +4,6 @@ import '../src/lib/whisper';
 import { store } from '../src/lib/models';
 
 /* global describe, it,expect */
-
 function timeout(duration) {
     return new Promise((resolve)=>{
         setTimeout(()=>{

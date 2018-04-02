@@ -14,7 +14,7 @@ const navigator = {
 
 const initialState = { messages: [
     {hash:'0xaabb', payload:'0x32'}
-] };
+]};
 const mockStore = configureStore();
 let store, rendered;
 
@@ -22,7 +22,7 @@ it('renders NewWalletPage without crashing', async () => {
     store = mockStore(initialState);
     rendered = renderer.create(
         <Provider store={store}>
-            <ConversionPage navigator={navigator} />
+            <ConversionPage navigator={navigator} session={{item:{subscribeid:1}}} />
         </Provider>);
     expect(rendered.toJSON()).toBeTruthy();
 
@@ -31,4 +31,16 @@ it('renders NewWalletPage without crashing', async () => {
     const page = pages[0].instance;
     page.say();
     page.onInputTextChange('dummy');
+});
+
+it('can not say', async () => {
+    store = mockStore(initialState);
+    rendered = renderer.create(
+        <Provider store={store}>
+            <ConversionPage navigator={navigator} session={{item:{subscribeid:0}}} />
+        </Provider>);
+
+    let pages = rendered.root.findAllByProps(initialState);
+    const page = pages[0].instance;
+    page.say();
 });
